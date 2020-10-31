@@ -121,7 +121,7 @@ public class DB {
         int updated = 0;
         try {
             connection = getConnection();
-            preparedStatement = connection.prepareStatement("update book set book_name=?, author=?, countofcopies=?, book_url=? where id=?");
+            preparedStatement = connection.prepareStatement("update book set book_name=?, author=?, countofcopies=?, book_url=? where book_id=?");
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, author);
             preparedStatement.setInt(3, countOfCopies);
@@ -180,5 +180,10 @@ public class DB {
         }
         return bookList;
     }
+//    public Book get(int id) {
+//        Book bookToFind = new Book(id);
+//        int index =
+//
+//    }
 
 }

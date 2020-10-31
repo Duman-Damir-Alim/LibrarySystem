@@ -28,6 +28,9 @@ public class Book implements Serializable {
         }
     }
 
+    public Book(int id) {
+    }
+
     public int getId() {
         return id;
     }

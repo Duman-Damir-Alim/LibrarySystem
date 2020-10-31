@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Objects;
+
 public class Reader implements User {
     private int reader_id;
     private String username;
@@ -73,5 +75,24 @@ public class Reader implements User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reader reader = (Reader) o;
+        return reader_id == reader.reader_id &&
+                borrowed_number == reader.borrowed_number &&
+                Objects.equals(username, reader.username) &&
+                Objects.equals(address, reader.address) &&
+                Objects.equals(phone, reader.phone) &&
+                Objects.equals(borrowed_name, reader.borrowed_name) &&
+                Objects.equals(password, reader.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(reader_id, username, address, phone, borrowed_number, borrowed_name, password);
     }
 }

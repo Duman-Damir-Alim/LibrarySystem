@@ -10,6 +10,15 @@
 <html>
 <head>
     <title>Title</title>
+    <style>
+        body {
+            background-image: url("image/library.jpg");
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-2.2.4.js"
+            type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"
+            type="text/javascript"></script>
 </head>
 <script>
     function searchBook() {
@@ -26,7 +35,7 @@
             if (this.readyState === 4 && this.status === 200) {
                 var bookList = JSON.parse(this.responseText);
                 if (bookList.length > 0) {
-                    location.href = "#book-"+bookList[0].id;
+                    // location.href = "#book-"+bookList[0].id;
                     document.getElementById("id").value = bookList[0].id;
                     document.getElementById("bookName").value = bookList[0].name;
                     document.getElementById("bookAuthor").value = bookList[0].bookAuthor;
@@ -49,7 +58,7 @@
         response.sendRedirect("index.jsp");
     }
 %>
-<div style="margin: auto; width: 30%; border: 3px solid green; padding: 10px;">
+<div style="margin: auto; width: 40%; border: 5px solid green; padding: 10px; background-color: aquamarine">
     <a href="${pageContext.request.contextPath}"><h1>books info</h1></a>
     <input type="text" id="searchId" style="width: 80%;" placeholder="book or author name" name="search">
     <input type="button" style="width: 15%;" name="search" value="search" onclick="searchBook()">
@@ -58,23 +67,23 @@
         <c:if test="${crud != null}">
             <c:choose>
                 <c:when test="${crud.charAt(1) == '1'.charAt(0) && crud.charAt(0) == 'c'.charAt(0) }">
-                    <c:out value="The New Book Was Successfully Added" />
+                    <h3 style="color: #4CAF50"><c:out value="The New Book Was Successfully Added" /></h3>
                     <c:out value="You can find it in the list" />
                 </c:when>
                 <c:when test="${crud.charAt(1) == '1'.charAt(0) && crud.charAt(0) == 'd'.charAt(0)}">
-                    <c:out value="The Book Was Successfully Deleted" />
+                    <h3 style="color: #4CAF50"><c:out value="The Book Was Successfully Deleted" /></h3>
                 </c:when>
                 <c:when test="${crud.charAt(1) == '1'.charAt(0) && crud.charAt(0) == 'u'.charAt(0)}">
                     <c:out value="The Book Was Successfully Updated" />
                 </c:when>
                 <c:otherwise>
-                    <c:out value="Something is wrong" />
+                    <h3 style="color: #EF3B3A"><c:out value="Something is wrong" /></h3>
                 </c:otherwise>
             </c:choose>
         </c:if>
     </h2>
     <form action="${pageContext.request.contextPath}/MainServlet" method="post">
-        <table style="border-collapse: collapse; border: 1px solid black; width: 100%" id="book-">
+        <table style="border-collapse: collapse; border: 3px solid black; width: 100%" id="book-">
             <tr>
                 <td>
                     <input style="width: 100%" type="hidden" id="id" name="bookId" value=""/>&nbsp;&nbsp;
