@@ -141,9 +141,9 @@ public class DB {
         int deleted = 0;
         try {
             Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("Delete from book WHERE id =?");
-            preparedStatement.executeQuery();
-            preparedStatement.setString(1, id);
+            PreparedStatement preparedStatement = connection.prepareStatement("Delete from book WHERE book_id =?");
+            preparedStatement.setInt(1, Integer.parseInt(id));
+            deleted = preparedStatement.executeUpdate();
             connection.close();
             preparedStatement.close();
         } catch (SQLException sqlException) {
