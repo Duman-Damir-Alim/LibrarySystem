@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://resource" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ax21="http://Model/xsd" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" targetNamespace="http://resource">
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://Model/xsd">
+            <xs:complexType name="Book">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="author" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="countOfCopies" type="xs:int"/>
+                    <xs:element minOccurs="0" name="id" type="xs:int"/>
+                    <xs:element minOccurs="0" name="imageURL" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="name" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:ax22="http://Model/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://resource">
+            <xs:import namespace="http://Model/xsd"/>
+            <xs:element name="getBook">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="id" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getBookResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax22:Book"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getAllBooks">
+                <xs:complexType>
+                    <xs:sequence/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getAllBooksResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="true" type="ax22:Book"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="deleteBook">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="id" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="deleteBookResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="return" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="addBook">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="b" nillable="true" type="ax22:Book"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="addBookResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="return" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="getAllBooksRequest">
+        <wsdl:part name="parameters" element="ns:getAllBooks"/>
+    </wsdl:message>
+    <wsdl:message name="getAllBooksResponse">
+        <wsdl:part name="parameters" element="ns:getAllBooksResponse"/>
+    </wsdl:message>
+    <wsdl:message name="deleteBookRequest">
+        <wsdl:part name="parameters" element="ns:deleteBook"/>
+    </wsdl:message>
+    <wsdl:message name="deleteBookResponse">
+        <wsdl:part name="parameters" element="ns:deleteBookResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getBookRequest">
+        <wsdl:part name="parameters" element="ns:getBook"/>
+    </wsdl:message>
+    <wsdl:message name="getBookResponse">
+        <wsdl:part name="parameters" element="ns:getBookResponse"/>
+    </wsdl:message>
+    <wsdl:message name="addBookRequest">
+        <wsdl:part name="parameters" element="ns:addBook"/>
+    </wsdl:message>
+    <wsdl:message name="addBookResponse">
+        <wsdl:part name="parameters" element="ns:addBookResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="BookServiceImplPortType">
+        <wsdl:operation name="getAllBooks">
+            <wsdl:input message="ns:getAllBooksRequest" wsaw:Action="urn:getAllBooks"/>
+            <wsdl:output message="ns:getAllBooksResponse" wsaw:Action="urn:getAllBooksResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="deleteBook">
+            <wsdl:input message="ns:deleteBookRequest" wsaw:Action="urn:deleteBook"/>
+            <wsdl:output message="ns:deleteBookResponse" wsaw:Action="urn:deleteBookResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getBook">
+            <wsdl:input message="ns:getBookRequest" wsaw:Action="urn:getBook"/>
+            <wsdl:output message="ns:getBookResponse" wsaw:Action="urn:getBookResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="addBook">
+            <wsdl:input message="ns:addBookRequest" wsaw:Action="urn:addBook"/>
+            <wsdl:output message="ns:addBookResponse" wsaw:Action="urn:addBookResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="BookServiceImplSoap11Binding" type="ns:BookServiceImplPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="getAllBooks">
+            <soap:operation soapAction="urn:getAllBooks" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="deleteBook">
+            <soap:operation soapAction="urn:deleteBook" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getBook">
+            <soap:operation soapAction="urn:getBook" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="addBook">
+            <soap:operation soapAction="urn:addBook" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="BookServiceImplSoap12Binding" type="ns:BookServiceImplPortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="getAllBooks">
+            <soap12:operation soapAction="urn:getAllBooks" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="deleteBook">
+            <soap12:operation soapAction="urn:deleteBook" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getBook">
+            <soap12:operation soapAction="urn:getBook" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="addBook">
+            <soap12:operation soapAction="urn:addBook" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="BookServiceImplHttpBinding" type="ns:BookServiceImplPortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="getAllBooks">
+            <http:operation location="getAllBooks"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="deleteBook">
+            <http:operation location="deleteBook"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getBook">
+            <http:operation location="getBook"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="addBook">
+            <http:operation location="addBook"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="BookServiceImpl">
+        <wsdl:port name="BookServiceImplHttpSoap11Endpoint" binding="ns:BookServiceImplSoap11Binding">
+            <soap:address location="http://localhost:8080//services/resource/BookServiceImpl"/>
+        </wsdl:port>
+        <wsdl:port name="BookServiceImplHttpSoap12Endpoint" binding="ns:BookServiceImplSoap12Binding">
+            <soap12:address location="http://localhost:8080//services/resource/BookServiceImpl"/>
+        </wsdl:port>
+        <wsdl:port name="BookServiceImplHttpEndpoint" binding="ns:BookServiceImplHttpBinding">
+            <http:address location="http://localhost:8080//services/resource/BookServiceImpl"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

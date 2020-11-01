@@ -258,4 +258,31 @@ public class DB {
             e.printStackTrace();
         }
     }
+    public void deleteById(Integer id) {
+        try {
+            Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM book WHERE book_id = ?");
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            connection.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void update(Book book) {
+        try {
+            Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE book SET book_name = ?, author = ?, countofcopies = ?, book_url = ? WHERE book_id = ?");
+            preparedStatement.setString(1, book.getName());
+            preparedStatement.setString(2,book.getAuthor());
+            preparedStatement.setInt(3,book.getCountOfCopies());
+            preparedStatement.setString(4,book.getImageURL());
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
