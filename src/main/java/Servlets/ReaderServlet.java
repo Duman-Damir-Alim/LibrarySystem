@@ -30,7 +30,16 @@ public class ReaderServlet extends HttpServlet {
             throwables.printStackTrace();
         }
         request.setAttribute("crud", "c" + added);
-        request.getRequestDispatcher("/MainServlet").forward(request, response);
+
+        try {
+            Connection connection = DB.getConnection();
+            ArrayList<Book> bookList = db.read(connection);
+            connection.close();
+            request.setAttribute("bookList", bookList);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        request.getRequestDispatcher("reader.jsp").forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
