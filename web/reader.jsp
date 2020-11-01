@@ -26,15 +26,5 @@
 <center><h1>Welcome Reader! Choose your book</h1></center>
 
 
-
-<%--<div class="login-page">--%>
-<%--    <div class="form">--%>
-<%--        <form action="/LibServlet" method="post" class="login-form">--%>
-<%--            <input type="text" name="username" placeholder="username"/>--%>
-<%--            <input type="password" name="password" placeholder="password"/>--%>
-<%--            <input type="submit" name="submit" value="Login">--%>
-<%--        </form>--%>
-<%--    </div>--%>
-<%--</div>--%>
 </body>
 </html>

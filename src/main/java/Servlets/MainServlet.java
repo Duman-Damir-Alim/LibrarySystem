@@ -28,13 +28,13 @@ public class MainServlet extends HttpServlet {
                 String bookAuthor = request.getParameter("bookAuthor");
                 int countOfCopies = Integer.parseInt(request.getParameter("countOfCopies"));
                 String coverURL = request.getParameter("imageURL");
-                int added = db.add(bookId, bookName, bookAuthor, countOfCopies, coverURL);
+                int added = db.addBook(bookId, bookName, bookAuthor, countOfCopies, coverURL);
                 request.setAttribute("crud", "c" + added);
                 break;
             }
             case "delete": {
                 String bookId = request.getParameter("bookId");
-                int deleted = db.delete(bookId);
+                int deleted = db.deleteBook(bookId);
                 request.setAttribute("crud", "d" + deleted);
                 break;
             }
@@ -45,15 +45,13 @@ public class MainServlet extends HttpServlet {
                 int countOfCopies = Integer.parseInt(request.getParameter("countOfCopies")); //TODO
                 String coverURL = request.getParameter("imageURL");
 
-                int updated = db.update(bookId, bookName, bookAuthor, countOfCopies, coverURL);
+                int updated = db.updateBook(bookId, bookName, bookAuthor, countOfCopies, coverURL);
                 request.setAttribute("crud", "u" + updated);
                 break;
             }
             case "search": {
                 String name = request.getParameter("name");
-                System.out.println("Name:" + name);
-                ArrayList<Book> bookList = db.search(name);
-                System.out.println("Booklist:" + bookList);
+                ArrayList<Book> bookList = db.searchReader(name);
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 String json = new Gson().toJson(bookList);

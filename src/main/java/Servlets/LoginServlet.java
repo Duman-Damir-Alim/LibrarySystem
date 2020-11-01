@@ -15,8 +15,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@WebServlet(name = "Servlets.FirstServlet")
-public class FirstServlet extends HttpServlet {
+@WebServlet(name = "Servlets.LoginServlet")
+public class LoginServlet extends HttpServlet {
     DB db = new DB();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

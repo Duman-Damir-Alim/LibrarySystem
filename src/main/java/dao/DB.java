@@ -14,11 +14,9 @@ public class DB {
     private static List<Book> list = new ArrayList<>();
 
     public static Connection getConnection() {
-        Context initialContext = null;
         Connection connection = null;
-
         try {
-            initialContext = new InitialContext();
+            Context initialContext = new InitialContext();
             Context envCtx = (Context) initialContext.lookup("java:comp/env");
             DataSource ds = (DataSource) envCtx.lookup("jdbc/week");
             connection = ds.getConnection();
@@ -79,13 +77,11 @@ public class DB {
         return books;
     }
 
-    public int add(int id, String name, String author, int countOfCopies, String imageUrl) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+    public int addBook(int id, String name, String author, int countOfCopies, String imageUrl) {
         int added = 0;
         try {
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement("Insert into book(book_id, book_name, author, countofcopies, book_url) VALUES (?,?,?,?,?)");
+            Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("Insert into book(book_id, book_name, author, countofcopies, book_url) VALUES (?,?,?,?,?)");
             preparedStatement.setInt(1, id);
             preparedStatement.setString(2, name);
             preparedStatement.setString(3, author);
@@ -100,13 +96,68 @@ public class DB {
         return added;
     }
 
-    public int update(int id, String name, String author, int countOfCopies, String imageURL) {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+    public String addReader(int id, String username, String password, String address, String phone) {
+        String errorMessage = "ok";
+        if (!checkReaderId(id)) {
+            errorMessage = "reader_id " + id + " already exist!";
+        } else {
+            try {
+                Connection connection = getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement("Insert into reader(reader_id, username, password, address, phone) VALUES (?,?,?,?,?)");
+                preparedStatement.setInt(1, id);
+                preparedStatement.setString(2, username);
+                preparedStatement.setString(3, password);
+                preparedStatement.setString(4, address);
+                preparedStatement.setString(5, phone);
+                int result = preparedStatement.executeUpdate();
+                if (result == 0) {
+                    errorMessage = "Couldn't add reader for some reason";
+                }
+                connection.close();
+                preparedStatement.close();
+            } catch (SQLException e) {
+                return errorMessage;
+            }
+        }
+        return errorMessage;
+    }
+
+    private boolean checkReaderId(int id) {
+        try {
+            Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("select reader_id from reader where reader_id = ?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (!resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean checkBooksAmount(int id) {
+        try {
+            Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("select countofcopies from book where book_id = ?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            int amount = resultSet.getInt("countofcopies");
+            if (amount != 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public int updateBook(int id, String name, String author, int countOfCopies, String imageURL) {
         int updated = 0;
         try {
-            connection = getConnection();
-            preparedStatement = connection.prepareStatement("update book set book_name=?, author=?, countofcopies=?, book_url=? where book_id=?");
+            Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("update book set book_name=?, author=?, countofcopies=?, book_url=? where book_id=?");
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, author);
             preparedStatement.setInt(3, countOfCopies);
@@ -122,7 +173,7 @@ public class DB {
     }
 
 
-    public int delete(String id) {
+    public int deleteBook(String id) {
         int deleted = 0;
         try {
             Connection connection = getConnection();
@@ -137,10 +188,9 @@ public class DB {
         return deleted;
     }
 
-    public ArrayList<Book> search(String name) {
+    public ArrayList<Book> searchReader(String name) {
         ArrayList<Book> bookList = new ArrayList();
         try {
-            System.out.println("trying to search"); //
             Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("Select * from book where book_name=? or author=?");
             preparedStatement.setString(1, name);
@@ -165,10 +215,4 @@ public class DB {
         }
         return bookList;
     }
-//    public Book get(int id) {
-//        Book bookToFind = new Book(id);
-//        int index =
-//
-//    }
-
 }

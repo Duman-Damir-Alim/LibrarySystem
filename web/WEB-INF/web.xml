@@ -20,12 +20,12 @@
         <url-pattern>/MainServlet</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>FirstServlet</servlet-name>
-        <servlet-class>Servlets.FirstServlet</servlet-class>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>Servlets.LoginServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>FirstServlet</servlet-name>
-        <url-pattern>/FirstServlet</url-pattern>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>SortByIdServlet</servlet-name>
@@ -34,6 +34,14 @@
     <servlet-mapping>
         <servlet-name>SortByIdServlet</servlet-name>
         <url-pattern>/Sort</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RegisterReaderServlet</servlet-name>
+        <servlet-class>Servlets.RegisterReaderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterReaderServlet</servlet-name>
+        <url-pattern>/RegisterReader</url-pattern>
     </servlet-mapping>
 
 </web-app>

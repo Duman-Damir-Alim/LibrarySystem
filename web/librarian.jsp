@@ -58,7 +58,7 @@
     }
 %>
 <div style="margin: auto; width: 40%; border: 5px solid green; padding: 10px; background-color: aquamarine">
-    <a href="${pageContext.request.contextPath}"><h1>books info</h1></a>
+    <a href="${pageContext.request.contextPath}/RegisterReader"><h1>Readers info</h1></a>
     <input type="text" id="searchId" style="width: 80%;" placeholder="book or author name" name="search">
     <input type="button" style="width: 15%;" name="search" value="search" onclick="searchBook()">
     <h2>

@@ -20,9 +20,7 @@ public class SortByIdServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DB db = new DB();
-        System.out.println("im here");
         try {
-            System.out.println("im in try block");
             Connection connection = DB.getConnection();
             ArrayList<Book> bookList = db.read(connection);
             Book book = new Book();
@@ -36,15 +34,12 @@ public class SortByIdServlet extends HttpServlet {
             request.removeAttribute("bookList");
             request.setAttribute("bookList", bookList);
             HttpSession session = request.getSession(true);
-            System.out.println(session.getAttribute("username"));
             if (session.getAttribute("username").equals("admin")) {
-                System.out.println("Redirecting to librarian");
                 request.getRequestDispatcher("librarian.jsp").forward(request,response);
             } else {
                 request.getRequestDispatcher("reader.jsp").forward(request, response);
             }
         } catch (SQLException exception) {
-            System.out.println("im in catch block");
             exception.printStackTrace();
         }
     }
