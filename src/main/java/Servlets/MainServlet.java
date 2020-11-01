@@ -76,6 +76,9 @@ public class MainServlet extends HttpServlet {
             exception.printStackTrace();
         }
         HttpSession session = request.getSession(true);
+        if (request.getAttribute("registerReaderPage") != null) {
+            request.getRequestDispatcher("registerReader.jsp");
+        }
         if (session.getAttribute("username").equals("admin")) { //Librarian username
             request.getRequestDispatcher("librarian.jsp").forward(request, response);
         } else {

@@ -96,6 +96,91 @@ public class DB {
         return added;
     }
 
+    public int addBookToReader(String username, int bookId, int countOfCopies) throws SQLException {
+        int added = 0;
+        if (!checkBooksAmount(bookId, countOfCopies)) {
+            System.out.println("checkBooksAmount failed");
+            return 0;
+        }
+        try {
+            System.out.println("try block addbooktoreader");
+            Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from reader where username = ? and borrowed_book_id = ?");
+            preparedStatement.setString(1, username);
+            preparedStatement.setInt(2, bookId);
+            preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            PreparedStatement preparedStatement6 = connection.prepareStatement("select countofcopies from book where book_id = ?");
+            preparedStatement6.setInt(1, bookId);
+            ResultSet resultSet2 = preparedStatement6.executeQuery();
+            int amountOfBooksInDB = 0;
+            while (resultSet2.next()) {
+                amountOfBooksInDB = resultSet2.getInt("countofcopies");
+            }
+
+            PreparedStatement preparedStatement8 = connection.prepareStatement("select borrowed_amount from reader where username = ?");
+            preparedStatement8.setString(1, username);
+            ResultSet resultSet3 = preparedStatement8.executeQuery();
+            int amountOfBooksUserHas = 0;
+            while (resultSet3.next()) {
+                amountOfBooksUserHas = resultSet3.getInt("borrowed_amount");
+            }
+            preparedStatement8.close();
+
+            if (resultSet.next()) {
+                System.out.println("resultsetnext:");
+                PreparedStatement preparedStatement2 = connection.prepareStatement("update reader set borrowed_amount = ? where username = ? and borrowed_book_id = ?");
+                preparedStatement2.setInt(1, amountOfBooksUserHas + countOfCopies);
+                preparedStatement2.setString(2, username);
+                preparedStatement2.setInt(3, bookId);
+                added = preparedStatement2.executeUpdate();
+                preparedStatement2.close();
+
+                System.out.println("amount: " + amountOfBooksUserHas);
+                PreparedStatement preparedStatement5 = connection.prepareStatement("update book set countofcopies = ? where book_id = ?");
+                preparedStatement5.setInt(1, amountOfBooksInDB - countOfCopies);
+                preparedStatement5.setInt(2, bookId);
+                added = preparedStatement5.executeUpdate();
+
+                preparedStatement5.close();
+                connection.close();
+            } else {
+                System.out.println("else clause");
+                PreparedStatement preparedStatement4 = connection.prepareStatement("select reader_id from reader where username = ?");
+                preparedStatement4.setString(1, username);
+                resultSet = preparedStatement4.executeQuery();
+                int readerId = 0;
+                while (resultSet.next()) {
+                    readerId = resultSet.getInt("reader_id");
+                }
+                PreparedStatement preparedStatement3 = connection.prepareStatement("insert into reader(reader_id, username, borrowed_book_id, borrowed_amount) values (?,?,?,?)");
+                preparedStatement3.setInt(1, readerId);
+                preparedStatement3.setString(2, username);
+                preparedStatement3.setInt(3, bookId);
+                preparedStatement3.setInt(4, countOfCopies);
+
+                added = preparedStatement3.executeUpdate();
+                preparedStatement3.close();
+                preparedStatement4.close();
+
+                PreparedStatement preparedStatement7 = connection.prepareStatement("update book set countofcopies = ? where book_id = ?");
+                preparedStatement7.setInt(1, amountOfBooksInDB - countOfCopies);
+                preparedStatement7.setInt(2, bookId);
+                added = preparedStatement7.executeUpdate();
+
+                preparedStatement7.close();
+                connection.close();
+
+                return added;
+            }
+            preparedStatement6.close();
+        } catch (SQLException e) {
+            System.out.println("catch clause:");
+        }
+        return added;
+    }
+
     public String addReader(int id, String username, String password, String address, String phone) {
         String errorMessage = "ok";
         if (!checkReaderId(id)) {
@@ -137,15 +222,18 @@ public class DB {
         return false;
     }
 
-    private boolean checkBooksAmount(int id) {
+    private boolean checkBooksAmount(int bookId, int countOfCopies) {
         try {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("select countofcopies from book where book_id = ?");
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, bookId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            int amount = resultSet.getInt("countofcopies");
-            if (amount != 0) {
-                return true;
+            while (resultSet.next()) {
+                int amount = resultSet.getInt("countofcopies");
+                System.out.println("amount of books: " + amount);
+                if (amount - countOfCopies >= 0) {
+                    return true;
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

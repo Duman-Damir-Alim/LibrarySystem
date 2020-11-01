@@ -43,5 +43,13 @@
         <servlet-name>RegisterReaderServlet</servlet-name>
         <url-pattern>/RegisterReader</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ReaderServlet</servlet-name>
+        <servlet-class>Servlets.ReaderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReaderServlet</servlet-name>
+        <url-pattern>/Reader</url-pattern>
+    </servlet-mapping>
 
 </web-app>

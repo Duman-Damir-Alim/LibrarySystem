@@ -51,10 +51,11 @@
         <input type="number" name="reader_id" placeholder="reader ID"/>
         <input type="text" name="username" placeholder="username"/>
         <input type="password" name="password" placeholder="password"/>
-        <input type="password" name="address" placeholder="address"/>
+        <input type="text" name="address" placeholder="address"/>
         <input type="phone" name="phone" placeholder="phone number"/>
         <input type="submit" name="submit" value="Register">
     </form>
+
 </div>
 
 

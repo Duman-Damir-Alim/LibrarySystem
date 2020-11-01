@@ -98,7 +98,7 @@
         </table>
     </form>
 
-    <h3>Sort by(Price):</h3>
+    <h3>Sort by(ID):</h3>
     <form action="Sort" method="post">
         <select name="sort">
             <option value="low-to-high">Low to high</option>
