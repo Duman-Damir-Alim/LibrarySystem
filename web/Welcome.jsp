@@ -29,18 +29,15 @@
             return;
         }
         xhttp.onreadystatechange = function () {
-            document.getElementById("bookName").value = this.status;
-            document.getElementById("bookAuthor").value = this.readyState;
-
             if (this.readyState === 4 && this.status === 200) {
                 var bookList = JSON.parse(this.responseText);
                 if (bookList.length > 0) {
-                    // location.href = "#book-"+bookList[0].id;
                     document.getElementById("id").value = bookList[0].id;
                     document.getElementById("bookName").value = bookList[0].name;
-                    document.getElementById("bookAuthor").value = bookList[0].bookAuthor;
+                    document.getElementById("bookAuthor").value = bookList[0].author;
                     document.getElementById("countOfCopies").value = bookList[0].countOfCopies;
                     document.getElementById("imageURL").value = bookList[0].imageURL;
+                    document.getElementById("bookImage").src = bookList[0].imageURL;
                 } else {
                     document.getElementById("searchId").value = "Not found";
                 }
@@ -90,12 +87,12 @@
                     <input type="submit" name="submit" value="update">&nbsp;&nbsp;
                     <input type="submit" name="submit" value="delete">
                 </td>
-                <td style="width:40%" rowspan="6"><img id="bookImage" src="" alt="book poster" width="128px" height="192px" /></td>
+                <td style="width:30%" rowspan="6"><img id="bookImage" src="" alt="book poster" width="128px" height="192px" /></td>
             </tr>
             <tr><td><input style="width: 100%" type="text" id="bookName" name="bookName" placeholder="book name" value=""/></td></tr>
             <tr><td><input style="width: 100%" type="text" id="bookAuthor" name="bookAuthor" placeholder="book author" value=""/></td></tr>
             <tr><td><input style="width: 100%" type="text" id="countOfCopies" name="countOfCopies" placeholder="amount" value=""/></td></tr>
-            <tr><td colspan="2"><input style="width: 100%" type="url" id="imageURL" name="imageURL" placeholder="image URL" value=""/></td></tr>
+            <tr><td><input style="width: 100%" type="url" id="imageURL" name="imageURL" placeholder="image URL" value=""/></td></tr>
         </table>
     </form>
     <c:forEach var="book" items="${bookList}" >
@@ -107,13 +104,13 @@
                         <input type="submit" name="submit" value="update">&nbsp;&nbsp;
                         <input type="submit" name="submit" value="delete">
                     </td>
-                    <td style="width:40%" rowspan="6"><img src="<c:out value="${book.imageURL}"/>" width="128px" height="192px" /></td>
+                    <td style="width:30%" rowspan="6"><img src="<c:out value="${book.imageURL}"/>" width="128px" height="192px" /></td>
                 </tr>
                 <tr><td><input style="width: 100%" type="number" name="bookId" placeholder="book ID" value="<c:out value="${book.id}"/>"></td></tr>
                 <tr><td><input style="width: 100%" type="text" name="bookName" placeholder="book name" value="<c:out value="${book.name}"/>"></td></tr>
                 <tr><td><input style="width: 100%" type="text" name="bookAuthor" placeholder="book author" value="<c:out value="${book.author}"/>"></td></tr>
                 <tr><td><input style="width: 100%" type="number" name="countOfCopies" placeholder="amount" value="<c:out value="${book.countOfCopies}"/>"/></td></tr>
-                <tr><td colspan="2"><input style="width: 100%" type="url" name="imageURL" placeholder="image URL" value="<c:out value="${book.imageURL}"/>"></td></tr>
+                <tr><td><input style="width: 100%" type="url" name="imageURL" placeholder="image URL" value="<c:out value="${book.imageURL}"/>"></td></tr>
             </table>
         </form>
         <br>
