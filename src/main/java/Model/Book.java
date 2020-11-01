@@ -1,14 +1,21 @@
 package Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
-public class Book implements Serializable {
+public class Book implements Serializable, Comparator<Book>, Comparable<Book> {
     private static final long serialVersionUID = 668812036984863675L;
     private int id;
     private String name;
     private String author;
     private int countOfCopies;
     private String imageURL;
+
+    public Book() {
+
+    }
 
     public Book(int id, String name, String author, int countOfCopies, String imageURL) {
         this.id = id;
@@ -71,6 +78,26 @@ public class Book implements Serializable {
         this.imageURL = imageURL;
     }
 
+    public ArrayList<Book> lowToHigh(ArrayList<Book> list) {
+        Collections.sort(list);
+        return list;
+    }
+
+    public ArrayList<Book> highToLow(ArrayList<Book> list) {
+        list.sort(Collections.reverseOrder());
+        return list;
+    }
+
+    @Override
+    public int compareTo(Book o) {
+        return this.id - o.getId();
+    }
+
+    @Override
+    public int compare(Book o1, Book o2) {
+        return o1.getId() - o2.getId();
+    }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -81,4 +108,5 @@ public class Book implements Serializable {
                 ", imageURL='" + imageURL + '\'' +
                 '}';
     }
+
 }

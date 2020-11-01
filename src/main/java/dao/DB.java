@@ -53,11 +53,11 @@ public class DB {
         return bookList;
     }
 
-    public static boolean checkLibrarian(String username, String password) {
+    public static boolean checkReader(String username, String password) {
         boolean st = false;
         try {
             Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM librarian WHERE username=? and password=?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM reader WHERE username=? and password=?");
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -66,21 +66,6 @@ public class DB {
             e.printStackTrace();
         }
         return st;
-    }
-
-    public static boolean checkReader(String username, String password) {
-        boolean st2 = false;
-        try {
-            Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM reader WHERE username=? and password=?");
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            st2 = resultSet.next();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return st2;
     }
 
     public List<Book> listAll() {

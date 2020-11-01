@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -54,7 +55,6 @@ public class MainServlet extends HttpServlet {
                 ArrayList<Book> bookList = db.search(name);
                 System.out.println("Booklist:" + bookList);
                 response.setContentType("application/json");
-                //response.setContentType("text/html;charset=UTF-8");
                 response.setCharacterEncoding("UTF-8");
                 String json = new Gson().toJson(bookList);
                 response.getWriter().write(json);
@@ -77,6 +77,11 @@ public class MainServlet extends HttpServlet {
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
-        request.getRequestDispatcher("Welcome.jsp").forward(request, response);
+        HttpSession session = request.getSession(true);
+        if (session.getAttribute("username").equals("admin")) { //Librarian username
+            request.getRequestDispatcher("librarian.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("reader.jsp").forward(request, response);
+        }
     }
 }

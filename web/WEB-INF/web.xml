@@ -28,19 +28,12 @@
         <url-pattern>/FirstServlet</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>WelcomeServlet</servlet-name>
-        <servlet-class>Servlets.WelcomeServlet</servlet-class>
+        <servlet-name>SortByIdServlet</servlet-name>
+        <servlet-class>Servlets.SortByIdServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>WelcomeServlet</servlet-name>
-        <url-pattern>/WelcomeServlet</url-pattern>
+        <servlet-name>SortByIdServlet</servlet-name>
+        <url-pattern>/Sort</url-pattern>
     </servlet-mapping>
-    <servlet>
-        <servlet-name>LibServlet</servlet-name>
-        <servlet-class>Servlets.LibServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LibServlet</servlet-name>
-        <url-pattern>/LibServlet</url-pattern>
-    </servlet-mapping>
+
 </web-app>
