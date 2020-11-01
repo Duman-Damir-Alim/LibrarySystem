@@ -67,10 +67,15 @@ public class DB {
     }
 
     public List<Book> listAll() {
-        List<Book> books = new ArrayList<>();
+        ArrayList<Book> books = new ArrayList<>();
         try {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * From book");
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next()) {
+                Book book = new Book(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getInt(4),rs.getString(5));
+                books.add(book);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -214,5 +219,43 @@ public class DB {
             sqlException.printStackTrace();
         }
         return bookList;
+    }
+
+    public Book getById(Integer id) {
+        Book book = new Book();
+
+        try {
+            Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * From book where book_id = ?");
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                book = new Book(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
+            }
+            return book;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return book;
+    }
+
+    public void add(Book book)  {
+        try {
+            Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("Insert into book(book_id, book_name, author,countofcopies, book_url) VALUES (?,?,?,?,?)?");
+            preparedStatement.setInt(1, book.getId());
+            preparedStatement.setString(2, book.getName());
+            preparedStatement.setString(3,book.getAuthor());
+            preparedStatement.setInt(4,book.getCountOfCopies());
+            preparedStatement.setString(5, book.getImageURL());
+            preparedStatement.executeQuery();
+            System.out.println("Book successfully added.");
+            connection.close();
+            preparedStatement.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,4 +1,6 @@
-package Model;
+package resource;
+
+import Model.Book;
 
 public interface BookService {
     //asd
