@@ -21,18 +21,14 @@ public class ReaderServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(true);
         String username = (String) session.getAttribute("username");
-        System.out.println("username " + username);
         int bookId = Integer.parseInt(request.getParameter("bookId"));
-        System.out.println("Bookid " + bookId);
         int countOfCopies = Integer.parseInt(request.getParameter("countOfCopies"));
-        System.out.println("countOfCopies: " + countOfCopies);
         int added = 0;
         try {
             added = db.addBookToReader(username, bookId, countOfCopies);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        System.out.println("added:" + added);
         request.setAttribute("crud", "c" + added);
         request.getRequestDispatcher("/MainServlet").forward(request, response);
     }
